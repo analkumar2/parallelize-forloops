@@ -8,32 +8,32 @@ import pickle
 a1 = np.random.uniform(size=(100,300,300))
 a2 = np.random.uniform(size=(100,300,300))
 
-# ###### doing it sequentially ###############
-# b = []
-# c = []
+###### doing it sequentially ###############
+b = []
+c = []
 
-# t = time.time()
-# bfile = open('b.pkl', 'wb')
-# cfile = open('c.pkl', 'wb')
-# for i in tqdm(range(len(a1))):
-# 	for jj in range(10000):
-# 		jedi = np.array(a1[i]**2*a2[i]**2)
-# 	jarjar = np.mean([np.array(a1[i]**2*a2[i]**2) for j in range(100)], axis=None)
-# 	binks = a1[i]+ a2[i]
-# 	b.append(jarjar)
-# 	c.append(binks)
-# 	pickle.dump(jarjar, bfile)
-# 	pickle.dump(binks, cfile)
-# bfile.close()
-# cfile.close()
-# print(time.time()-t)
+t = time.time()
+bfile = open('b.pkl', 'wb')
+cfile = open('c.pkl', 'wb')
+for i in tqdm(range(len(a1))):
+	for jj in range(10000):
+		jedi = np.array(a1[i]**2*a2[i]**2)
+	jarjar = np.mean([np.array(a1[i]**2*a2[i]**2) for j in range(100)], axis=None)
+	binks = a1[i]+ a2[i]
+	b.append(jarjar)
+	c.append(binks)
+	pickle.dump(jarjar, bfile)
+	pickle.dump(binks, cfile)
+bfile.close()
+cfile.close()
+print(time.time()-t)
 
-# # print(b)
-# # print(c)
+# print(b)
+# print(c)
 
 
 
-# ############################################
+############################################
 
 # ######### doing it parallelly #######################
 b_par = []
