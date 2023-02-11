@@ -1,0 +1,1 @@
+The aim here is to convert any for loop into multiprocessing.
