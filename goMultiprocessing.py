@@ -25,8 +25,9 @@ def listener_save(q, filelists):
 def worker_appendsave(func,L,i, seed, args,q):
     np.random.seed(seed+i) #In case func is using any random number generation, this is needed so that the different processes dont generate the same random number
     out = func(args) #Evaluate func
-    for resultindex in range(len(out)):
-        L[resultindex][i] = out[resultindex] #we do not use append as the proccesses are running asynchronously
+    if len(L)>0:
+        for resultindex in range(len(out)):
+            L[resultindex][i] = out[resultindex] #we do not use append as the proccesses are running asynchronously
     q.put([args,out]) #Put the func output to queue
     del out #Not sure if this is needed
 
@@ -36,7 +37,7 @@ def Multiprocessthis_appendsave(func, arguementlist, appendlists, filelists, see
 
     Parameters:
         func: function
-                The function that needs to be run multiple times
+                The function that needs to be run multiple times. the function should return a list of objects
         arguementlsit: list of lists
                 list of arguements for which the func needs to be run
         appendlists: list of lists
