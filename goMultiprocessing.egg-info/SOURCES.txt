@@ -1,0 +1,8 @@
+README.txt
+goMultiprocessing.py
+setup.py
+testMP.py
+goMultiprocessing.egg-info/PKG-INFO
+goMultiprocessing.egg-info/SOURCES.txt
+goMultiprocessing.egg-info/dependency_links.txt
+goMultiprocessing.egg-info/top_level.txt

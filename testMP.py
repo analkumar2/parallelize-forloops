@@ -16,7 +16,7 @@ t = time.time()
 bfile = open('b.pkl', 'wb')
 cfile = open('c.pkl', 'wb')
 for i in tqdm(range(len(a1))):
-	for jj in range(10000):
+	for jj in range(100):
 		jedi = np.array(a1[i]**2*a2[i]**2)
 	jarjar = np.mean([np.array(a1[i]**2*a2[i]**2) for j in range(100)], axis=None)
 	binks = a1[i]+ a2[i]
@@ -41,15 +41,15 @@ c_par = []
 def ourfunc(i):
 	'''
 		Just copy pase whatever is under the for loop. Except for whaterver is being appended or saved in a file.
-		Return those (whatever is being saved or dumped into file) instead
+		Return those (whatever is being saved or dumped into file) instead in order. First the outputs that has to be appended, then the outputs that have to be saved
 	'''
-	for jj in range(10000):
+	for jj in range(100):
 		jedi = np.array(a1[i]**2*a2[i]**2)
 	jarjar = np.mean([np.array(a1[i]**2*a2[i]**2) for j in range(100)], axis=None)
 	binks = a1[i]+ a2[i]
 	# jarjar=2
 	# binks=[12,3,4]
-	return [jarjar, binks]
+	return [jarjar, binks, jarjar, binks]
 
 t = time.time()
 ## first arguemnt is the function that was just written
