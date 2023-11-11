@@ -30,7 +30,7 @@ def worker_appendsave(func,L,i, seed, args,q):
     q.put([args,out[len(L):]]) #Put the func output to queue
     del out #Not sure if this is needed
 
-def Multiprocessthis_appendsave(func, arguementlist, appendlists, filelists, seed=123):
+def Multiprocessthis_appendsave(func, arguementlist, appendlists, filelists, seed=123, npool=0.75):
     '''
     Same as a for loop but using multiprocessing
 
@@ -45,6 +45,8 @@ def Multiprocessthis_appendsave(func, arguementlist, appendlists, filelists, see
                 the lists of file names as strings where you want to store your results
         seed: int
                 In case the func uses some random number generator, this makes sure the data is reproduceable
+        npool: float or int
+                How many cores to use. If it is a int, use that many cores. If it is a float, use that fraction of total cores in the machine.
 
     Returns:
         appendedlists: list of lists
@@ -55,7 +57,14 @@ def Multiprocessthis_appendsave(func, arguementlist, appendlists, filelists, see
     appendlists = [np.append(appendlist,[[None]*len(arguementlist)]) for appendlist in appendlists] #since the processes will be running asynchronously, we will be using the index to update our lists instead of append
     L = [manager.list(appendlist) for appendlist in appendlists] #So that the lists are available for all child processes
     q = manager.Queue()    
-    pool = mp.Pool(mp.cpu_count() + 2)
+    # pool = mp.Pool(mp.cpu_count() + 2)
+    if type(npool)==float:
+        pool = mp.Pool(int(mp.cpu_count()*npool))
+    elif type(npool)==int:
+        pool = mp.Pool(npool)
+    else:
+        raise Exception("npool must be either int or float")
+    print(f'{pool} cores being opened')
 
     #put listener to work first
     watcher = pool.apply_async(listener_save, (q,filelists))
