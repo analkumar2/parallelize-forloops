@@ -22,15 +22,15 @@ def listener_save(q, filelists):
     for fileopen in filelists_open:
         fileopen.close()
 
-def worker_appendsave(func,L,i, seed, args,q):
+def worker_appendsave(func,L,i, seed, args,q, **kwargs):
     np.random.seed(seed+i) #In case func is using any random number generation, this is needed so that the different processes dont generate the same random number
-    out = func(args) #Evaluate func
+    out = func(args, **kwargs) #Evaluate func
     for resultindex in range(len(L)):
         L[resultindex][i] = out[resultindex] #we do not use append as the proccesses are running asynchronously
     q.put([args,out[len(L):]]) #Put the func output to queue
     del out #Not sure if this is needed
 
-def Multiprocessthis_appendsave(func, arguementlist, appendlists, filelists, seed=123, npool=0.75):
+def Multiprocessthis_appendsave(func, arguementlist, appendlists, filelists, seed=123, npool=0.75, **kwargs):
     '''
     Same as a for loop but using multiprocessing
 
@@ -72,7 +72,7 @@ def Multiprocessthis_appendsave(func, arguementlist, appendlists, filelists, see
     #fire off workers
     jobs = []
     for i in range(len(arguementlist)):
-        job = pool.apply_async(worker_appendsave, (func,L,i,seed,arguementlist[i],q))
+        job = pool.apply_async(worker_appendsave, (func,L,i,seed,arguementlist[i],q), kwds=kwargs)
         jobs.append(job)
 
     # collect results from the workers through the pool result queue

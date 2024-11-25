@@ -38,7 +38,7 @@ print(time.time()-t)
 # ######### doing it parallelly #######################
 b_par = []
 c_par = []
-def ourfunc(i):
+def ourfunc(i, somekwrg=True):
 	'''
 		Just copy pase whatever is under the for loop. Except for whaterver is being appended or saved in a file.
 		Return those (whatever is being saved or dumped into file) instead in order. First the outputs that has to be appended, then the outputs that have to be saved
@@ -47,6 +47,8 @@ def ourfunc(i):
 		jedi = np.array(a1[i]**2*a2[i]**2)
 	jarjar = np.mean([np.array(a1[i]**2*a2[i]**2) for j in range(100)], axis=None)
 	binks = a1[i]+ a2[i]
+	if somekwrg:
+		binks = binks+10
 	# jarjar=2
 	# binks=[12,3,4]
 	return [jarjar, binks, jarjar, binks]
@@ -57,7 +59,7 @@ t = time.time()
 ## third argement is either the lists you want to append the results to. can be []
 ## fourth arguemnet is list of files where you want to store your results. can be []
 ## fifth arguemnt is seed. If ourfunc has any random number generation, the different processes can generate the same random number because they are being called at the same time. Thus, we use this seed and based on this have separate seeds for each child process
-b_par,c_par = Multiprocessthis_appendsave(ourfunc, range(len(a1)), [b_par,c_par], ['b_par.pkl','c_par.pkl'], seed=123)
+b_par,c_par = Multiprocessthis_appendsave(ourfunc, range(len(a1)), [b_par,c_par], ['b_par.pkl','c_par.pkl'], seed=123, somekwrg=True)
 print(time.time()-t)
 
 
